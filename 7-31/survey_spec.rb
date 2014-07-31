@@ -7,6 +7,8 @@ describe Survey do
     @statements = ['How are you?', 'Do you like Fish?', 'Do you like Ruby?',
                   'Pick a number 1-5', 'Do you get a lot of sleep?']
     @survey = Survey.new(@statements)
+    def user_response; 5 end
+    @survey.ask_questions
   end
 
   it "takes statements as an argument" do
@@ -18,11 +20,15 @@ describe Survey do
   end
 
   it "calculates the highest number response" do
-    
+    assert_equal @survey.highest, 5
   end
 
-  it "calculates the lowest number response"
+  it "calculates the lowest number response" do
+    assert_equal @survey.lowest, 1
+  end
 
-  it "calculates the average of answers"
+  it "calculates the average of answers" do
+    assert_equal @survey.average, 3
+  end
 
 end

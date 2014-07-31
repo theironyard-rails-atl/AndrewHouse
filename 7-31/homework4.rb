@@ -5,10 +5,14 @@ class Survey
     @answers = []
   end
 
+  def user_response
+    gets.chomp.to_i
+  end
+  
   def ask_questions
     @statement.each do |question|
       puts question
-      user_answer = gets.chomp.to_i
+      user_answer = user_response
       if user_answer >5 || user_answer < 1 || user_answer.is_a?(Fixnum) == false
         next puts "Invalid Answer - Skipping Question"
       end
