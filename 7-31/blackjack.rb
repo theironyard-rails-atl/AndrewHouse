@@ -20,27 +20,122 @@ class Card
 end
 
 class Deck
-  attr_reader :deck
+  attr_accessor :deck, :drawn
   def initialize
-    @deck = {}
+    @deck = []
+    @drawn = []
+    load_deck
   end
 
   def cards
+    load_deck if @deck == []
+    remove_drawn_cards
+    @deck
+  end
+
+  def draw
+    a = @deck.sample
+    @drawn << a
+    remove_drawn_cards
+    a
+  end
+
+  def remove_drawn_cards
+    @drawn.each do |card|
+      @deck.delete(card)
+    end
+  end
+
+  def load_deck
+    @deck = []
+    face_cards = [:A, :K, :Q, :J]
     suits = [:C, :D, :H, :S]
-    face_cards = [:K, :Q, :J, :A]
     suits.each do |suit|
-      2.upto(10) do |x|
-        card = Card.new(x, suit)
-        @deck[card.rank] = card.suit
+      2.upto(10) do |number_card|
+        @deck << Card.new(number_card, suit)
       end
-      face_cards.each do |i|
-        face = Card.new(i, suit)
-        @deck[face.rank] = face.suit
+      face_cards.each do |face|
+        @deck << Card.new(face, suit)
       end
     end
-    @deck
   end
 end
 
-a = Deck.new
-p a.cards
+class Hand
+  attr_reader :hand
+  def initialize
+    @hand = []
+  end
+
+  def add *cards
+    @hand << cards
+  end
+
+  def value
+    val = 0
+    ace = false
+    @hand.each do |object|
+      object.each do |card|
+        ace = true if card.rank == :A
+        if card.rank == :A && (val + card.value) < 21
+          val += 10
+        end
+        val += card.value
+        if val > 21 && ace
+          val -= 10
+        end
+      end
+    end
+    val
+  end
+
+  def busted?
+    self.value > 21
+  end
+
+  def blackjack?
+    self.value == 21
+  end
+
+  def to_s
+    string_array = []
+    @hand.each do |object|
+      object.each do |card|
+        string_array << "#{card.rank}#{card.suit}"
+      end
+    end
+    string_array.join(", ")
+  end
+end
+
+class Player
+
+  attr_accessor :total_cash
+
+  def initialize
+    @total_cash = 100
+  end
+
+end
+
+class Game
+  attr_accessor :player, :play_deck
+
+  def initialize player
+    @player = player
+    @play_deck = Deck.new
+  end
+
+  def start_round
+    @play_deck.draw
+    @play_deck.draw
+  end
+
+  def hit
+  end
+
+
+end
+
+a = Player.new
+b = Game.new(a)

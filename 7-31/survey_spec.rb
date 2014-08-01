@@ -8,7 +8,8 @@ describe Survey do
                   'Pick a number 1-5', 'Do you get a lot of sleep?']
     @survey = Survey.new(@statements)
     def user_response; 5 end
-    @survey.ask_questions
+    @survey.ask_questions # comment out user_response on homework4.rb to run test
+    @answers = [5,4,3,2,1]
   end
 
   it "takes statements as an argument" do
