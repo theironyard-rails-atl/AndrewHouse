@@ -175,7 +175,6 @@ class Game
   end
 
   def won?
-    return false if busted?
     return true if @dealt_cards.blackjack? && @dealer.blackjack? == false
     return true if @dealer.busted?
     (@dealt_cards.value > @dealer.value) && busted? == false
@@ -187,6 +186,11 @@ class Game
 
   def round_over?
     won? || busted? || @dealer.busted?
+  end
+
+  def reset_hand
+    @dealer = Hand.new
+    @dealt_cards = Hand.new
   end
 
 end
