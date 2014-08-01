@@ -106,6 +106,11 @@ class Hand
     end
     string_array.join(", ")
   end
+
+  def one_card
+    card = @hand[0][0]
+    "#{card.rank}#{card.suit}"
+  end
 end
 
 class Player
@@ -119,23 +124,63 @@ class Player
 end
 
 class Game
-  attr_accessor :player, :play_deck
+  attr_accessor :player, :play_deck, :dealt_cards, :dealer
 
-  def initialize player
-    @player = player
+  def initialize
+    @player = Player.new
+    @dealer = Hand.new
     @play_deck = Deck.new
+    @dealt_cards = Hand.new
   end
 
   def start_round
-    @play_deck.draw
-    @play_deck.draw
+    2.times do
+      @dealt_cards.add(@play_deck.draw)
+      @dealer.add(@play_deck.draw)
+    end
+  end
+
+  def show_hand
+    @dealt_cards.to_s
+  end
+
+  def dealer_show
+    @dealer.to_s
+  end
+
+  def dealer_show_one_card
+    @dealer.one_card
   end
 
   def hit
+    @dealt_cards.add(@play_deck.draw)
+
   end
 
+  def dealer_hit
+    if @dealer.value < 17
+      @dealer.add(@play_deck.draw)
+    end
+  end
+
+  def player_score
+    @dealt_cards.value
+  end
+
+  def dealer_score
+    @dealer.value
+  end
+
+  def won?
+    return false if @dealt_cards.busted?
+    return true if @dealt_cards.blackjack? && @dealer.blackjack? == false
+    return true if @dealer.busted?
+    (@dealt_cards.value > @dealer.value) && @dealt_cards.busted? == false
+  end
+
+  def round_over?
+    return false if @dealer.value < 17
+    won? || @dealt_cards.busted? || @dealer.busted?
+  end
 
 end
-
-a = Player.new
-b = Game.new(a)
