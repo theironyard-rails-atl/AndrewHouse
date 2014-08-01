@@ -154,7 +154,6 @@ class Game
 
   def hit
     @dealt_cards.add(@play_deck.draw)
-
   end
 
   def dealer_hit
@@ -171,16 +170,23 @@ class Game
     @dealer.value
   end
 
+  def busted?
+    @dealt_cards.busted?
+  end
+
   def won?
-    return false if @dealt_cards.busted?
+    return false if busted?
     return true if @dealt_cards.blackjack? && @dealer.blackjack? == false
     return true if @dealer.busted?
-    (@dealt_cards.value > @dealer.value) && @dealt_cards.busted? == false
+    (@dealt_cards.value > @dealer.value) && busted? == false
+  end
+
+  def dealer_done?
+    @dealer.value >= 17
   end
 
   def round_over?
-    return false if @dealer.value < 17
-    won? || @dealt_cards.busted? || @dealer.busted?
+    won? || busted? || @dealer.busted?
   end
 
 end
