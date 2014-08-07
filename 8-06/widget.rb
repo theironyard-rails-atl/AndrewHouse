@@ -11,23 +11,15 @@ class Widget
   end
 
   def each
-    @widgets.each do |widget_hash|
-      widget_hash.each do |widget|
-        yield widget
-      end
-    end
+    @widgets.each { |widget| yield widget }
   end
 
   def max_price
-    @widgets.max_by do |widget|
-      widget[:price]
-    end
+    @widgets.max_by { |widget| widget[:price] }
   end
 
   def min_price
-    @widgets.min_by do |widget|
-      widget[:price]
-    end
+    @widgets.min_by { |widget| widget[:price] }
   end
 
   def total_revenue

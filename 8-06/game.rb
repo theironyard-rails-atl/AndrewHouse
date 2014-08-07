@@ -23,9 +23,9 @@ end
 
 class PowerBoxer < Boxer
   def initialize talents={}
+    @speed = 3
+    @power = 8
     super
-    @speed = talents[:speed] || 3
-    @power = talents[:power] || 8
   end
 
   def uppercut boxer
@@ -38,6 +38,8 @@ end
 
 class SpeedBoxer < Boxer
   def initialize talents={}
+    @power = 3
+    @speed = 8
     super
   end
 
@@ -46,6 +48,20 @@ class SpeedBoxer < Boxer
     punch boxer
     @speed -= @speed
     boxer.punch(self)
+  end
+end
+
+class DurableBoxer < Boxer
+  def initialize talents={}
+    @durability = 40
+  end
+
+  def turtle boxer
+    @speed -= 2
+    @durability += 10
+    boxer.punch self
+    punch boxer
+    @speed += 2
   end
 end
 
