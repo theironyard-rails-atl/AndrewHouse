@@ -1,6 +1,7 @@
 require 'sinatra'
 require 'httparty'
 require './github.rb'
+require 'haml'
 
 get '/' do
   haml :index
@@ -24,7 +25,7 @@ end
 
 post '/letters' do
   @words = params[:word]
-  @number_of_letters = @words.gsub(" ", "").split("").inject(Hash.new(0)) do |hash,letter|
+  @number_of_letters = @words.gsub(" ", "").upcase.split("").inject(Hash.new(0)) do |hash,letter|
       hash[letter] += 1
       hash
     end
