@@ -1,11 +1,11 @@
 %html
   %head
     %link{:href=>"//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css", :rel=>"stylesheet"}
-    %title "Fun things!"
+    %title Andrew House - Sinatra
   %body
     %header
-      %ul.nav.nav-tabs
-        %li.active
+      %ul.nav.nav-tabs.nav-justified
+        %li
           %a(href="/")
             Home
         %li
@@ -17,5 +17,8 @@
         %li
           %a(href='/repos')
             Github Repositories
+        %li
+          %a(href='/news')
+            Important News
     .container
       =yield
